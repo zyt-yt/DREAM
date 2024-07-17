@@ -442,7 +442,7 @@ else:
 if args.test:
     args.save_dir = './results/test'
 else:
-    args.save_dir = f"./results/{datatag}/{modeltag}{args.tag}{args.name}"
+    args.save_dir = f"./results_improve/{datatag}/{modeltag}{args.tag}{args.name}"
 args.modeltag = modeltag
 args.datatag = datatag
 """

@@ -309,14 +309,14 @@ def load_resized_data(args):
 
         images_train = data['images_train']
         labels_train = data['labels_train']
-        images_train = images_train.detach().float() / 255.0
+        images_train = images_train.detach().float()
         labels_train = labels_train.detach()
 
         train_dataset = TensorDataset(images_train, labels_train)  # no augmentation
         train_dataset.nclass=200
         images_val = data['images_val']
         labels_val = data['labels_val']
-        images_val = images_val.detach().float() / 255.0
+        images_val = images_val.detach().float()
         labels_val = labels_val.detach()
 
         for c in range(channel):
@@ -378,8 +378,7 @@ def remove_aug(augtype, remove_aug):
 
 
 def diffaug(args, device='cuda'):
-    """Differentiable augmentation for condensation
-    """
+    """Differentiable augmentation for condensation"""
     aug_type = args.aug_type
     normalize = utils.Normalize(mean=MEANS[args.dataset], std=STDS[args.dataset], device=device)
     print("Augmentataion Matching: ", aug_type)
@@ -566,7 +565,6 @@ def condense(args, logger, device='cuda'):
                     w_loc += w_r
                     k += 1
                 h_loc += h_r
-
     elif args.init == 'noise':
         pass
     
@@ -574,11 +572,9 @@ def condense(args, logger, device='cuda'):
     print("init_size:",synset.data.size())
     save_img(os.path.join(args.save_dir, 'init.png'),
              synset.data,
-             unnormalize=False,
+             unnormalize=True,
              dataname=args.dataset)
-
     # Define augmentation function
-    
     save_img(os.path.join(args.save_dir, f'aug.png'),
              aug(synset.sample(0, max_size=args.batch_syn_max)[0]),
              unnormalize=True,
@@ -667,7 +663,7 @@ def condense(args, logger, device='cuda'):
         if (it + 1) in it_test:
             save_img(os.path.join(args.save_dir, f'img{it+1}.png'),
                      synset.data,
-                     unnormalize=False,
+                     unnormalize=True,
                      dataname=args.dataset)
 
             # It is okay to clamp data to [0, 1] at here.

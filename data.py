@@ -26,7 +26,8 @@ MEANS['fashion'] = [0.2861]
 STDS['fashion'] = [0.3530]
 MEANS['tiny'] = [0.485, 0.456, 0.406]
 STDS['tiny'] = [0.229, 0.224, 0.225]
-    
+MEANS['tinyimagenet'] = [0.485, 0.456, 0.406]
+STDS['tinyimagenet'] = [0.229, 0.224, 0.225]
 
 class TensorDataset(torch.utils.data.Dataset):
     def __init__(self, images, labels, transform=None):
@@ -266,8 +267,8 @@ def transform_fashion(augment=False, from_tensor=False, normalize=True):
     test_transform = transforms.Compose(cast + normal_fn)
 
     return train_transform, test_transform
-
-def transform_tinyimagenet(augment=False, from_tensor=False, normalize=True):
+# change here, set normalize=False instead
+def transform_tinyimagenet(augment=False, from_tensor=False, normalize=False):
     if not augment:
         aug = []
     else:
